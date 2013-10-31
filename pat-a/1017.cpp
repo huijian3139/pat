@@ -22,7 +22,7 @@ bool comp(const Customer&c1,const Customer&c2)
 class Bank
 {
 	public:
-	vector<Customer> queue;
+	deque<Customer> queue;
 	int K;
 	int opentime;
 	int endtime;
@@ -38,7 +38,22 @@ class Bank
 	{
 		if(window.size()==0)
 		{
-			
+			if(queue.empty())
+			{
+				return false;
+			}
+			if(queue[0].arrive<=curtime)
+			{
+				queue[0].serve=curtime;
+				window.push_back(queue[0]);
+				queue.pop_front();
+				return true;
+			}
+			else
+			{
+				curtime=queue[0].arrive;
+				return true;	
+			}
 		}
 		else if(window.size()==K)
 		{
